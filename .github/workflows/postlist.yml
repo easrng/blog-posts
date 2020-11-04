@@ -22,4 +22,4 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Build post list
         run: |
-          python3 -c "import os;import json;print(json.dumps(list(map((lambda name: {'slug': name,'title': ([f[2:].strip() for f in open(os.path.join(os.getenv('GITHUB_WORKSPACE'), name),'r').read().split('\n') if f[:2]=='# '] or ['Untitled Post'])[0]}),[f for f in os.listdir(os.getenv('GITHUB_WORKSPACE')) if os.path.isfile(os.path.join(os.getenv('GITHUB_WORKSPACE'),f))]))))"
+          python3 -c "import os;import json;print(json.dumps(list(map((lambda name: {'slug': name,'title': ([f[2:].strip() for f in open(os.path.join(os.getenv('GITHUB_WORKSPACE'), name),'r').read().split('\n') if f[:2]=='# '] or [name])[0]}),[f for f in os.listdir(os.getenv('GITHUB_WORKSPACE')) if os.path.isfile(os.path.join(os.getenv('GITHUB_WORKSPACE'),f))]))))"
