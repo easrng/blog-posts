@@ -23,12 +23,8 @@ jobs:
       - name: Build post list
         run: |
           python3 -c "import os;import json;print(json.dumps(list(map((lambda name: {'slug': name,'title': ([f[2:].strip() for f in open(os.path.join(os.getenv('GITHUB_WORKSPACE'), name),'r').read().split('\n') if f[:2]=='# '] or [name])[0]}),[f for f in os.listdir(os.getenv('GITHUB_WORKSPACE')) if os.path.isfile(os.path.join(os.getenv('GITHUB_WORKSPACE'),f))]))))" > posts.json
-      - name: GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v2.2.0
+      - name: Push changes
+        uses: actions-go/push@v1
         with:
-          # Git branch where assets will be deployed
-          target_branch: gh-page
-          # Build directory to deploy
-          build_dir: .
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          force: true
+          remote-ref: gh-page
