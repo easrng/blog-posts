@@ -23,8 +23,12 @@ jobs:
       - name: Build post list
         run: |
           python3 -c "import os;import json;print(json.dumps(list(map((lambda name: {'slug': name,'title': ([f[2:].strip() for f in open(os.path.join(os.getenv('GITHUB_WORKSPACE'), name),'r').read().split('\n') if f[:2]=='# '] or [name])[0]}),[f for f in os.listdir(os.getenv('GITHUB_WORKSPACE')) if os.path.isfile(os.path.join(os.getenv('GITHUB_WORKSPACE'),f))]))))" > posts.json
-      - name: Upload post list
-        uses: actions/upload-artifact@v2.2.1
+      - name: GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v2.2.0
         with:
-          name: posts.json
-          path: posts.json
+          # Git branch where assets will be deployed
+          target_branch: gh-page
+          # Build directory to deploy
+          build_dir: .
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
