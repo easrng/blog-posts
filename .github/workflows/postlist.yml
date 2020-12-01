@@ -24,6 +24,8 @@ jobs:
         run: |
           python3 -c "import os;import json;print(json.dumps(list(map((lambda name: {'slug': name,'title': ([f[2:].strip() for f in open(os.path.join(os.getenv('GITHUB_WORKSPACE'), name),'r').read().split('\n') if f[:2]=='# '] or [name])[0]}),[f for f in os.listdir(os.getenv('GITHUB_WORKSPACE')) if os.path.isfile(os.path.join(os.getenv('GITHUB_WORKSPACE'),f))]))))" > posts.json
           rm -rf .github
+          git config user.email "postsjsonupdater@example.com"
+          git config user.name "posts.json Updater"
           git add posts.json
           git commit -m Update posts.json
       - name: Push changes
